@@ -1,0 +1,2 @@
+browser-sync: sh -c "browser-sync start --server ./frontend/src --files './frontend/src/**/*'"
+
