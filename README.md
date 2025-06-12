@@ -1,5 +1,7 @@
 # RecipeM8
 
+[WIP: Check it out](https://astley92.github.io/recipem8/)
+
 A tool I plan to use to store recipes, their ingredients and how to cook them.
 With some extra functionality:
 - I can add and remove recipes and ingredients
@@ -19,7 +21,7 @@ Otherwise just use plain old HTML, CSS and Javascript
 # Plan
 
 Because I'm a cheapskate, I want to run this thing for free. The plan is:
-- Host as a github projst page
+- Host as a github project page
 - Recipes and ingredients will actually be stored in this repository
     - As a json file
     - One recipe per file
