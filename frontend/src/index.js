@@ -1,4 +1,10 @@
+import DB from "./services/db.js";
+
 document.addEventListener("DOMContentLoaded", () => {
+    const db = new DB();
+    db.connect(async () => {});
+    listFiles();
+
     async function listFiles() {
         const owner = "astley92";
         const repo = "recipem8";
@@ -21,6 +27,4 @@ document.addEventListener("DOMContentLoaded", () => {
             list.appendChild(li);
         });
     }
-
-    listFiles();
 });
