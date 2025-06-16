@@ -5,19 +5,23 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <title>RecipeM8</title>
-        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="../../style.css">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     </head>
     <body>
-        <h1>RecipeM8</h1>
+        <h1>New Recipe</h1>
 
-        <a href="pages/recipes/new.html">New Recipe</a>
-        <a href="pages/ingredients.html">Ingredients</a>
+        <form action="">
+            <!-- Recipe Name -->
+            <!-- Should have some frontend validation that the recipe name is > 3 characters -->
+            <label for="name">Recipe Name</label>
+            <input type="text" name="name" placeholder="Recipe Name" required minlength="3">
 
-        <ul id="file-list"></ul>
+            <button id="create-recipe" type="submit">Create Recipe</button>
+        </form>
 
-        <script type="module" src="index.js"></script>
+        <script type="module" src="new.js"></script>
     </body>
 </html>
