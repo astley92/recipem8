@@ -26,6 +26,7 @@ Because I'm a cheapskate, I want to run this thing for free. The plan is:
     - As a json file
     - One recipe per file
     - One ingredient per file
+- Data will be stored on the users end using indexeddb
 - Requests made with write action (adding, deleting recipes and ingredients) will need auth:
     - Users can change whatever they want client side
     - But will need to click a sync button to sync recipes and ingredients
