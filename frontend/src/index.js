@@ -1,5 +1,3 @@
-console.log("RecipeM8");
-
 document.addEventListener("DOMContentLoaded", () => {
     async function listFiles() {
         const owner = "astley92";
