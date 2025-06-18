@@ -1,3 +1,45 @@
 * {
     font-family: "Roboto", sans-serif;
+    font-optical-sizing: auto;
+}
+
+body {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.search-container {
+    margin: 20px 0;
+}
+
+#recipe-search {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+#recipe-list {
+    list-style: none;
+    padding: 0;
+}
+
+#recipe-list li {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+#recipe-list li:last-child {
+    border-bottom: none;
+}
+
+#recipe-list a {
+    text-decoration: none;
+    color: #333;
+}
+
+#recipe-list a:hover {
+    color: #666;
 }

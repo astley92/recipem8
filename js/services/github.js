@@ -5,6 +5,13 @@ class GitHubService {
         this.baseUrl = `https://api.github.com/repos/${owner}/${repo}`;
     }
 
+    async getAllFilesAtPath(path) {
+        const files = await this._getContents(path);
+        return files
+            .filter(file => file.type === 'file')
+            .map(file => file.name);
+    }
+
     async _getContents(path) {
         try {
             const url = `${this.baseUrl}/contents/${path}`;
@@ -19,13 +26,6 @@ class GitHubService {
             console.error('Error fetching contents:', error);
             throw error;
         }
-    }
-
-    async getAllFilesAtPath(path) {
-        const files = await this._getContents(path);
-        return files
-            .filter(file => file.type === 'file')
-            .map(file => file.name);
     }
 }
 
