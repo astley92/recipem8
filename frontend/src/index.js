@@ -4,6 +4,9 @@ import RecipeStorage from './js/services/recipeStorage.js';
 addEventListener("DOMContentLoaded", async () => {
     const githubService = new GitHubService("astley92", "recipem8");
     const recipeStorage = new RecipeStorage();
+    const recipeList = document.getElementById('recipe-list');
+    const searchInput = document.getElementById('recipe-search');
+    let allRecipes = [];
 
     async function syncRecipes() {
         try {
@@ -38,12 +41,53 @@ addEventListener("DOMContentLoaded", async () => {
         }
     }
 
+    function displayRecipes(recipes) {
+        recipeList.innerHTML = '';
+        recipes.forEach(recipe => {
+            const li = document.createElement('li');
+            const a = document.createElement('a');
+            a.href = '#'; // Placeholder link
+            a.textContent = recipe;
+            li.appendChild(a);
+            recipeList.appendChild(li);
+        });
+    }
+
+    function filterRecipes(searchTerm) {
+        const filtered = allRecipes.filter(recipe => 
+            recipe.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+        displayRecipes(filtered);
+    }
+
+    // Debounce function
+    function debounce(func, wait) {
+        let timeout;
+        return function executedFunction(...args) {
+            const later = () => {
+                clearTimeout(timeout);
+                func(...args);
+            };
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+        };
+    }
+
+    // Set up search with debouncing
+    const debouncedFilter = debounce((searchTerm) => {
+        filterRecipes(searchTerm);
+    }, 300);
+
+    searchInput.addEventListener('input', (e) => {
+        debouncedFilter(e.target.value);
+    });
+
     // Load and display recipes
     try {
-        const recipes = await loadRecipes();
-        console.log('Available recipes:', recipes);
-        // Here you can do something with the recipes, like display them
+        allRecipes = await loadRecipes();
+        displayRecipes(allRecipes);
     } catch (error) {
         console.error('Failed to load recipes:', error);
+        recipeList.innerHTML = '<li>Failed to load recipes</li>';
     }
 });
