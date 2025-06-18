@@ -12,17 +12,21 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 </head>
 <body>
-    <h1>RecipeM8</h1>
+    <div class="container">
+        <header>
+            <h1>RecipeM8</h1>
+            <nav>
+                <a href="pages/ingredients.html">Ingredients</a>
+            </nav>
+        </header>
 
-    <div class="nav-links">
-        <a href="pages/ingredients.html">Ingredients</a>
+        <main>
+            <div class="search-container">
+                <input type="text" id="recipe-search" class="search-input" placeholder="Search recipes...">
+            </div>
+            <ul id="recipe-list" class="item-list"></ul>
+        </main>
     </div>
-
-    <div class="search-container">
-        <input type="text" id="recipe-search" placeholder="Search recipes...">
-    </div>
-
-    <ul id="recipe-list"></ul>
 
     <script type="module" src="index.js"></script>
 </body>
