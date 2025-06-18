@@ -1,38 +1,22 @@
-import GitHubService from './js/services/github.js';
+import SyncManager from './js/services/syncManager.js';
 import RecipeStorage from './js/services/recipeStorage.js';
 
 addEventListener("DOMContentLoaded", async () => {
-    const githubService = new GitHubService("astley92", "recipem8");
+    const syncManager = new SyncManager("astley92", "recipem8");
     const recipeStorage = new RecipeStorage();
     const recipeList = document.getElementById('recipe-list');
     const searchInput = document.getElementById('recipe-search');
     let allRecipes = [];
 
-    async function syncRecipes() {
-        try {
-            const files = await githubService.getAllFilesAtPath('data/recipes');
-            const recipeNames = files
-                .filter(file => file.endsWith('.json'))
-                .map(file => file.replace('.json', ''));
-            
-            await recipeStorage.storeRecipeNames(recipeNames);
-            console.log('Recipes synced successfully');
-            return recipeNames;
-        } catch (error) {
-            console.error('Failed to sync recipes:', error);
-            throw error;
-        }
-    }
-
     async function loadRecipes() {
         try {
             // Check if we need to sync
-            if (await recipeStorage.needsSync()) {
-                console.log('Syncing recipes from GitHub...');
-                return await syncRecipes();
+            if (await syncManager.needsSync()) {
+                console.log('Syncing data from GitHub...');
+                await syncManager.syncAll();
             }
 
-            // Otherwise, load from IndexedDB
+            // Load from IndexedDB
             console.log('Loading recipes from IndexedDB...');
             return await recipeStorage.getRecipeNames();
         } catch (error) {

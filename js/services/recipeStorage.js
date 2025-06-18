@@ -6,7 +6,7 @@ class RecipeStorage {
 
     async init() {
         return new Promise((resolve, reject) => {
-            const request = indexedDB.open("recipem8", 1);
+            const request = indexedDB.open("recipem8", 2);
 
             request.onerror = () => {
                 reject(request.error);
@@ -22,6 +22,9 @@ class RecipeStorage {
                 if (!db.objectStoreNames.contains("recipes")) {
                     db.createObjectStore("recipes", { keyPath: "name" });
                 }
+                if (!db.objectStoreNames.contains("ingredients")) {
+                    db.createObjectStore("ingredients", { keyPath: "name" });
+                }
                 if (!db.objectStoreNames.contains("sync")) {
                     db.createObjectStore("sync", { keyPath: "id" });
                 }
@@ -33,23 +36,52 @@ class RecipeStorage {
         if (!this.db) await this.init();
 
         return new Promise((resolve, reject) => {
-            const transaction = this.db.transaction(["recipes", "sync"], "readwrite");
-            const recipeStore = transaction.objectStore("recipes");
-            const syncStore = transaction.objectStore("sync");
+            const transaction = this.db.transaction("recipes", "readwrite");
+            const store = transaction.objectStore("recipes");
 
             // Clear existing recipes
-            recipeStore.clear();
+            store.clear();
 
             // Store new recipe names
             recipeNames.forEach(name => {
-                recipeStore.add({ name });
+                store.add({ name });
             });
-
-            // Update sync timestamp
-            syncStore.put({ id: "lastSync", timestamp: Date.now() });
 
             transaction.oncomplete = () => resolve();
             transaction.onerror = () => reject(transaction.error);
+        });
+    }
+
+    async storeIngredientNames(ingredientNames) {
+        if (!this.db) await this.init();
+
+        return new Promise((resolve, reject) => {
+            const transaction = this.db.transaction("ingredients", "readwrite");
+            const store = transaction.objectStore("ingredients");
+
+            // Clear existing ingredients
+            store.clear();
+
+            // Store new ingredient names
+            ingredientNames.forEach(name => {
+                store.add({ name });
+            });
+
+            transaction.oncomplete = () => resolve();
+            transaction.onerror = () => reject(transaction.error);
+        });
+    }
+
+    async storeLastSyncTime() {
+        if (!this.db) await this.init();
+
+        return new Promise((resolve, reject) => {
+            const transaction = this.db.transaction("sync", "readwrite");
+            const store = transaction.objectStore("sync");
+            const request = store.put({ id: "lastSync", timestamp: Date.now() });
+
+            request.onsuccess = () => resolve();
+            request.onerror = () => reject(request.error);
         });
     }
 
@@ -63,6 +95,21 @@ class RecipeStorage {
 
             request.onsuccess = () => {
                 resolve(request.result.map(recipe => recipe.name));
+            };
+            request.onerror = () => reject(request.error);
+        });
+    }
+
+    async getIngredientNames() {
+        if (!this.db) await this.init();
+
+        return new Promise((resolve, reject) => {
+            const transaction = this.db.transaction("ingredients", "readonly");
+            const store = transaction.objectStore("ingredients");
+            const request = store.getAll();
+
+            request.onsuccess = () => {
+                resolve(request.result.map(ingredient => ingredient.name));
             };
             request.onerror = () => reject(request.error);
         });
