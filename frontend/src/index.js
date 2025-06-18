@@ -46,7 +46,7 @@ addEventListener("DOMContentLoaded", async () => {
         recipes.forEach(recipe => {
             const li = document.createElement('li');
             const a = document.createElement('a');
-            a.href = '#'; // Placeholder link
+            a.href = `pages/recipe.html?name=${encodeURIComponent(recipe)}`;
             a.textContent = recipe;
             li.appendChild(a);
             recipeList.appendChild(li);
