@@ -29,10 +29,36 @@ addEventListener("DOMContentLoaded", async () => {
         ingredientList.innerHTML = '';
         ingredients.forEach(ingredient => {
             const li = document.createElement('li');
+
+            // Flex container
+            const flexDiv = document.createElement('div');
+            flexDiv.className = 'recipe-list-flex';
+
             const a = document.createElement('a');
             a.href = `ingredient.html?name=${encodeURIComponent(ingredient)}`;
             a.textContent = ingredient;
-            li.appendChild(a);
+            
+            // Remove button
+            const removeBtn = document.createElement('button');
+            removeBtn.textContent = 'Remove';
+            removeBtn.className = 'btn btn-secondary remove-btn';
+            removeBtn.addEventListener('click', async (e) => {
+                e.preventDefault();
+                if (confirm(`Are you sure you want to remove the ingredient "${ingredient}"?`)) {
+                    try {
+                        await recipeStorage.removeIngredient(ingredient);
+                        // Remove from allIngredients and update display
+                        allIngredients = allIngredients.filter(i => i !== ingredient);
+                        displayIngredients(allIngredients);
+                    } catch (error) {
+                        alert('Failed to remove ingredient.');
+                    }
+                }
+            });
+
+            flexDiv.appendChild(a);
+            flexDiv.appendChild(removeBtn);
+            li.appendChild(flexDiv);
             ingredientList.appendChild(li);
         });
     }

@@ -9,21 +9,43 @@ addEventListener("DOMContentLoaded", async () => {
     const recipeName = urlParams.get('name');
 
     if (!recipeName) {
-        recipeContent.innerHTML = '<h1>Recipe not found</h1>';
+        recipeContent.textContent = 'Recipe not found';
         return;
     }
 
     try {
         const recipes = await recipeStorage.getRecipeNames();
         if (!recipes.includes(recipeName)) {
-            recipeContent.innerHTML = '<h1>Recipe not found</h1>';
+            recipeContent.textContent = 'Recipe not found';
             return;
         }
 
-        // Display recipe name
-        recipeContent.innerHTML = `<h1>${recipeName}</h1>`;
+        // Clear content
+        recipeContent.innerHTML = '';
+
+        // Create and append title
+        const titleEl = document.createElement('h1');
+        titleEl.textContent = recipeName;
+        recipeContent.appendChild(titleEl);
+
+        // Create and append remove button
+        const removeBtn = document.createElement('button');
+        removeBtn.id = 'remove-recipe-btn';
+        removeBtn.className = 'btn btn-secondary remove-btn remove-btn-top';
+        removeBtn.textContent = 'Remove Recipe';
+        removeBtn.addEventListener('click', async () => {
+            if (confirm(`Are you sure you want to remove the recipe "${recipeName}"?`)) {
+                try {
+                    await recipeStorage.removeRecipe(recipeName);
+                    window.location.href = '../index.html';
+                } catch (error) {
+                    alert('Failed to remove recipe.');
+                }
+            }
+        });
+        recipeContent.appendChild(removeBtn);
     } catch (error) {
         console.error('Error loading recipe:', error);
-        recipeContent.innerHTML = '<h1>Error loading recipe</h1>';
+        recipeContent.textContent = 'Error loading recipe';
     }
 }); 

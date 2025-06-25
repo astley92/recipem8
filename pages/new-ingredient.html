@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Add New Ingredient - RecipeM8</title>
+        <link rel="stylesheet" href="../style.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <h1>RecipeM8</h1>
+                <nav>
+                    <a href="../index.html">Home</a>
+                    <a href="new-recipe.html">Add Recipe</a>
+                    <a href="ingredients.html">Ingredients</a>
+                </nav>
+            </header>
+
+            <main>
+                <div class="form-container">
+                    <h2>Add New Ingredient</h2>
+                    <form id="new-ingredient-form" class="recipe-form">
+                        <div class="form-group">
+                            <label for="ingredient-title">Ingredient Name:</label>
+                            <input 
+                                type="text" 
+                                id="ingredient-title" 
+                                name="title" 
+                                required 
+                                minlength="3" 
+                                maxlength="100"
+                                placeholder="Enter ingredient name (no spaces allowed)"
+                            >
+                            <div id="title-error" class="error-message"></div>
+                        </div>
+                        
+                        <div class="form-actions">
+                            <button type="submit" id="submit-btn" class="btn btn-primary">Create Ingredient</button>
+                            <a href="ingredients.html" class="btn btn-secondary">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </main>
+        </div>
+
+        <script type="module" src="../js/pages/new-ingredient.js"></script>
+    </body>
+</html> 

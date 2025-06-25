@@ -29,10 +29,36 @@ addEventListener("DOMContentLoaded", async () => {
         recipeList.innerHTML = '';
         recipes.forEach(recipe => {
             const li = document.createElement('li');
+
+            // Flex container
+            const flexDiv = document.createElement('div');
+            flexDiv.className = 'recipe-list-flex';
+
             const a = document.createElement('a');
             a.href = `pages/recipe.html?name=${encodeURIComponent(recipe)}`;
             a.textContent = recipe;
-            li.appendChild(a);
+            
+            // Remove button
+            const removeBtn = document.createElement('button');
+            removeBtn.textContent = 'Remove';
+            removeBtn.className = 'btn btn-secondary remove-btn';
+            removeBtn.addEventListener('click', async (e) => {
+                e.preventDefault();
+                if (confirm(`Are you sure you want to remove the recipe "${recipe}"?`)) {
+                    try {
+                        await recipeStorage.removeRecipe(recipe);
+                        // Remove from allRecipes and update display
+                        allRecipes = allRecipes.filter(r => r !== recipe);
+                        displayRecipes(allRecipes);
+                    } catch (error) {
+                        alert('Failed to remove recipe.');
+                    }
+                }
+            });
+
+            flexDiv.appendChild(a);
+            flexDiv.appendChild(removeBtn);
+            li.appendChild(flexDiv);
             recipeList.appendChild(li);
         });
     }
