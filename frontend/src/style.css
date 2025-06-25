@@ -281,3 +281,24 @@ main {
         width: 100%;
     }
 }
+
+.remove-btn {
+    margin-left: 1rem;
+}
+
+.remove-btn-top {
+    margin-top: 1rem;
+}
+
+.recipe-list-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    gap: 1rem;
+}
+
+.recipe-list-flex button {
+    width: auto;
+    white-space: nowrap; /* Keeps button text on one line */
+}

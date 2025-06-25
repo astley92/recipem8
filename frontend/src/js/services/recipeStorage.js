@@ -135,6 +135,17 @@ class RecipeStorage {
         const oneDayInMs = 24 * 60 * 60 * 1000;
         return Date.now() - lastSync > oneDayInMs;
     }
+
+    async removeRecipe(name) {
+        if (!this.db) await this.init();
+        return new Promise((resolve, reject) => {
+            const transaction = this.db.transaction("recipes", "readwrite");
+            const store = transaction.objectStore("recipes");
+            const request = store.delete(name);
+            request.onsuccess = () => resolve();
+            request.onerror = () => reject(request.error);
+        });
+    }
 }
 
 export default RecipeStorage; 
