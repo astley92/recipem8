@@ -146,6 +146,17 @@ class RecipeStorage {
             request.onerror = () => reject(request.error);
         });
     }
+
+    async removeIngredient(name) {
+        if (!this.db) await this.init();
+        return new Promise((resolve, reject) => {
+            const transaction = this.db.transaction("ingredients", "readwrite");
+            const store = transaction.objectStore("ingredients");
+            const request = store.delete(name);
+            request.onsuccess = () => resolve();
+            request.onerror = () => reject(request.error);
+        });
+    }
 }
 
 export default RecipeStorage; 
